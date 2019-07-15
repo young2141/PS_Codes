@@ -40,7 +40,7 @@ for tc in range(1, t+1):
 
 	print('#%d %d' % (tc,dijkstra(n,w,m)))
 
-'''
+''' 
 2
 4
 0100
