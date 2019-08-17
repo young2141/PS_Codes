@@ -21,20 +21,10 @@ def dfs(w, row, col, throw, throws):
                                 y,x = i,j
                                 break
                 else : y,x = 0, j            
-                if throws == 0 and j == 2:
-                        a=2
-                if throws ==1 and j== 2:
-                        a=2
-                if throws == 2 and j == 6:
-                        a=2
-                tmp = chain(copy.deepcopy(w),y,x,w[y][x],row,col)
-                tmp = slide(tmp,row,col)
-                
-                # print('ball num:'+str(throws),'col:'+str(j))
-                # pprint.pprint(tmp)
-                
-                dfs(tmp,row,col,throw, throws+1)
 
+                tmp = chain(copy.deepcopy(w),y,x,w[y][x],row,col)
+                tmp = slide(tmp,row,col)                
+                dfs(tmp,row,col,throw, throws+1)
 
                 
 def chain(w,i,j,ranges,row,col):
