@@ -1,21 +1,19 @@
 # kakao_shuttle_bus
-# in progres...
-
+# in progress...
 def solution(n, t, m, timetable):
-    waiting,answer = [],90*60
+    waiting,answer = [],9*60
     timetable = sorted([int(s[:2])*60+int(s[3:]) for s in timetable])
-    bus_time = 90*60
+    bus_time = 9*60
     for _ in range(n):        
-        on_board = len([ppl for ppl in waiting if ppl <= bus_time])
+        on_board = len([ppl for ppl in timetable if ppl <= bus_time])
         if on_board > m : on_board = m
-        waiting = waiting[m:]
-        if waiting == []:
+        timetable = timetable[on_board:]
+        if timetable == []:
             break
         bus_time += t  
-    
-    
+    return str(bus_time//60) + ':' + str(bus_time%60)    
 
 
 if __name__ == "__main__":
-    n,t,m,timetable = 1,1,5,["08:00", "08:01", "08:02", "08:03"]
+    n,t,m,timetable =2,10,2,['09:10', '09:09', '08:00']	
     print(solution(n,t,m,timetable))
