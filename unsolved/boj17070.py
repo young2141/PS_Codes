@@ -1,4 +1,4 @@
-# boj 17070 bfs time eceed
+# boj 17070 bfs time eceed algorithm is right though
 import sys
 import copy
 
