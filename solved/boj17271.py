@@ -2,6 +2,7 @@
 
 import sys
 import itertools
+from collections import deque
 sys.stdin = open('input.txt','r')
 
 point = 0
@@ -18,7 +19,8 @@ for turn in per:
     i = 0
     point = 0
     for inning in range(n):
-        out_count,plate = 0,[]
+        out_count = 0
+        plate = deque()
         while out_count < 3:
             hit = p[inning][turn[i]]
             if hit == 0:
@@ -35,13 +37,17 @@ for turn in per:
             elif hit == 4:
                 i = (i+1)%9
                 point += plate.count(1)+1
-                plate = []
+                plate = deque()
                 continue
                 
             i = (i+1)%9
             if len(plate) >3:
-                point +=plate[:-3].count(1)
-                plate = plate[-3:]
+                front = len(plate) - 3
+                for _ in range(front):
+                    if plate.popleft() == 1:
+                        point += 1
+                #print(plate)
+                
                 
     answer = max(point, answer)
 print(answer)
