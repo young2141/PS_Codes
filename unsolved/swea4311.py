@@ -1,3 +1,5 @@
+# no library allowed... 
+
 def calc(a,b,op):
     a,b = int(a), int(b)
     if op == '1': 
@@ -42,10 +44,7 @@ for tc in range(1, tc+1):
             if cn == '': continue
             cn = int(cn)
             
-            num = ''
-            for a in numbers:
-                for b in numbers:
-                    for c in numbers:
+            num = ''           
                         
 
                 num = int(num)
