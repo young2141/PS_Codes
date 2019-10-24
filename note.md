@@ -11,22 +11,24 @@
 **hashing** : hash function거쳐서 key의 인덱스에 넣는다.-->collision발생 
 해결책:
 
-1. **open address** : 다른 해시 버킷에 해당자료 삽입 + 캐시 사용 가능. 
+1. **open address** :다른 해시 버킷에 해당자료 삽입 + 캐시 사용 가능. 
 
    key+ data를 모두 저장한다. 포인트를 안써서 성능향상 (chain불가능)
-
-   * linked list(데이터 적을시 메모리 이득) or red-black tree(데이터 많을시 속도 빠	름) 이용. 
-   * simple uniform hash : 1)해쉬값0부터 배열크기 동일한 확률로 나올것
-                                   2)해쉬값들은 연관성없이 독립적으로 생성될것
-
-   * division method : %(modular)연산을 이용한 대표적 해쉬 함수. %는 키의 수의 3배가 적당 
-
-2. **sepate chaining**. 더빠름!
 
    * liner probing: 이미 그 슬롯이 차있다면, 그 위에 슬롯에 저장한다. primary clustering문제점있다. 데이터들이 특정위치에만 밀집하는 형상. slot이 많아지면 탐색시간 엄청 늘어남.
    * quadaratic probing : `h(k,i) = (k+i^2)%m`의 형태. 충돌 일어날 경우 i를 하나씩 올려서 계산한다(초기 = 0) secondary clustering발생. 처음 해쉬값 같을경우 이후 해쉬값도 동일하게 계산되는 현상.
    * double hashing: `h1(k) = k%m`, `h2(k)=k%m2` 이면, `h(k,i)=(h1(k)+i*h2(k))%m` 형식.
      두가지 해쉬함수를 이용한다. secondary clustering 해결! 
+
+2.  **seperate chaining**: 빠르다. 데이터 적을때 이용. 버킷당 key-value 6/8개 기준
+   * linked list(데이터 적을시 메모리 이득) 
+   * tree : red-black tree(데이터 많을시 속도 빠	름) 이용. 
+
+* simple uniform hash : 1)해쉬값0부터 배열크기 동일한 확률로 나올것
+      2)해쉬값들은 연관성없이 독립적으로 생성될것
+
+* division method : %(modular)연산을 이용한 대표적 해쉬 함수. %는 키의 수의 3배가 적당 
+* 현재 데이터 개수가 버킷개수의 75%가되면 해시 버킷 2배로 확장 
 
 #### Sorting Algorithm 
 
@@ -166,7 +168,7 @@ linked list : 삽입 빠르다. search느리다O(n).
 
 #### BST 
 
-left child = smaller, right child = bigger. 중위순회시 정렬값
+left child = smaller, right child = bigger. 중위순회시 정렬값. 노드 저장 값은 유일 값
 
 * 탐색속도는 평균 O(log n), worst(skewed) O(n)
 * 삽입 : $O(1)$
@@ -201,8 +203,8 @@ queue 이용. 문어발. O(V+E).. 최단경로
 
 #### minimal spanning tree
 
-1. kurskal : weight 가장 작은 edge부터 놓는다. cycle있으면 넘어감. 
-2. prim: 시작점에서 가장 작은 edge들로 이어나간다. 
+1. kurskal : weight 가장 작은 edge부터 놓는다. cycle있으면 넘어감. (disjoint set forest) O(E log E)
+2. prim: 시작점에서 가장 작은 edge들로 이어나간다. O(E log V)
 
 # C++
 
@@ -311,7 +313,8 @@ small:작은 단위가 앞으로온다 0x1234 = 34 12. 하위 바이트 별도 �
  뮤텍스, 세마포어차이는? 크리티컬 섹션 이용이가능이 프로세스 하나면 뮤텍스.
 
 #### process vs thread 
-**process** : code, data, stack heap 할당. 장점) 문제생겨도 다른 프로세스 영향x
+**process** : code, data, stack heap 할당. 장점) 문제생겨도 다른 프로세스 영향x, context switching 시 캐시 메모리 비워야 되서 느리다. 
+
 **thread** : stack,pc register 만 할당. 나머진 공유. 장점) context switching overhead적다.자원 소모 적다 
        단점) 동기화 문제(전역변수 공유)
       +pc regester는 스레드가 어디까지 명령을 수행했는지 나타낸다. 
@@ -503,6 +506,8 @@ Note right of Server : 8: end session
 
  reliable, connection control, flow contorl, congestion control. 호스트에서만 작동(중간 라우터x)
 
+full-duplex(저송, 수신 동시에 가능), point to point (정확히 2개의 종단점)
+
 * Flow Control 
 
   송신측의 속도가 수신측보다 빠를경우 생기는 문제 방지하기 위해 생김. 수식측의 저장용량 한계 있기 때문. 송신측의 전송량을 수신측에 맞게 조절해야한다
@@ -624,7 +629,7 @@ note over server: close()
   주요 특징 기술적으로 설계. 
 
 * **플랫폼**:프로그램 실행 환경. 자동차 주행환경
-  플랫폼 위에 플랫폼 ㅆㄱㄴ. ex) windows, 앱스토어
+  플랫폼 위에 플랫폼 가능. ex) windows, 앱스토어
 
 ####  분산처리 시스템. 
 하나의 작업에 여러대 machine. message passing interface.
@@ -659,34 +664,24 @@ note over server: close()
 
 WAS : DB조회, 로직처리 등 *동적* 컨텐츠 제공하는 서버 
 
+#### RESTful API
 
+HTTP Method 통해 차원 처리 설계. 
 
-# TODO:
+GET, POST, PUT, DELETE라는 *행위* 통해서 *리소스*를 주고받는다.
 
-1. 1분 자기소개 
+#### 함수형 프로그래밍
 
-  ```tex
-  지원자 OOO입니다.
-  저를 표현하는 2가지 키워드는 도전과 상생입니다.
-  저는 동아리에서 새로운 경험을 쌓는데 앞장섰습니다. vr, ar, audio visualization이라는 새로운 기술을 미디어아트에 접목시켜 게임, 작품을 만들었고, 전시회 출품과 동아리 부흥이라는 결과를 낳았습니다.
-  두번째는 상생입니다.
-  저의 대학생 시절 별명은 코딩천사였습니다.
-  알고리즘 스터디의 리더로 스터디원의 알고리즘 능력을 향상시켰고, sw재능기부 동아리 활동을 하며 배움의 나눔을 실현시켰습니다.
-  이러한 저의 경험을 토대로 저는 00 에서 새로운 기술을 배우고, 상생할 수 있는 서비스를 제공하는데 노력하고싶습니다.
-  ```
+how?가 아니라 what.  ... *보강필요*
 
-2. process vs thread + mutex
+#### MVC
 
-3. ~~http vs https :  [link](http://www.kocw.net/home/search/kemView.do?kemId=1223614 )~~
+**Controller, Model, View**
 
-4. ~~tcp vs udp~~
+CONTROLLER *manipulates* MODELS
 
-   ~~flow control, congestion control~~
+MODEL *updates* VIEW
 
-5. ~~GC, java memory [link]( https://yaboong.github.io/java/2018/05/26/java-memory-management/ )~~ 
+VIEW *sees* USER 
 
-6. ~~oop란?~~
-
-7. ~~rdb~~
-
-8. ~~socket 통신 과정~~
+USER *uses* CONTROLLER
