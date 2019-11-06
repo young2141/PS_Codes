@@ -20,10 +20,9 @@
    * double hashing: `h1(k) = k%m`, `h2(k)=k%m2` 이면, `h(k,i)=(h1(k)+i*h2(k))%m` 형식.
      두가지 해쉬함수를 이용한다. secondary clustering 해결! 
 
-2.  **separate chaining**: 빠르다. 데이터 적을때 이용. 버킷당 key-value 6/8개 기준
-   
+2.  **seperate chaining**: 빠르다. 데이터 적을때 이용. 버킷당 key-value 6/8개 기준
    * linked list(데이터 적을시 메모리 이득) 
-   * tree : red-black tree(데이터 많을시 속도 빠름) 이용. 
+   * tree : red-black tree(데이터 많을시 속도 빠	름) 이용. 
 
 * simple uniform hash : 1)해쉬값0부터 배열크기 동일한 확률로 나올것
       2)해쉬값들은 연관성없이 독립적으로 생성될것
@@ -86,9 +85,11 @@
       return result
   ```
   
+  
+
 - **힙정렬(heap sort)** : 모든 노드가 힙 속성(각 노드의 값이 자신의 자식노드 값보다 큰 *완전이진트리*)을 만족하도록 재귀적으로 트리 구조를 만들어 정렬을 완성
 
-  * siftDown: 이 노드가 주어진 트리에서 힙 성질 갖도록 만든다. $O(log\space n)$
+  * siftDown: 이 노드가 주어진 트리에서 힙 성질 갖도록 만든다.f $O(log\space n)$
 
   * insert, delete: 노드 추가/제거후 downheap. $O(logn)$
 
@@ -293,6 +294,61 @@ E --> B
   - 같은 형태이지만 다른 기능을 하는 것
   - 오버라이딩은 이와 관련된 기능임
 
+#### App Life Cycle
+
+```mermaid
+graph LR
+A(Created) -->B(Started)
+B --> C(Resumed)
+C --> D(Paused)
+D --> C
+D --> E(Stopped)
+E --> F(Desroyed)
+E --> B
+
+
+
+```
+
+* onCreated() : Activity처음에 호출. 최초로 실행
+* onStart(): Activity 다시 시작전에 호출. 사용자에게 보여지기 직전
+* onResume(): 화면에 보여지는 단계, 사용자에게 Focus잡은 상태
+* onRestart(): Stopped에서 다시 start할 때 불린다 
+
+다른 어플에서 호출하는 액티비티  :
+
+* onPause(): 다른엑티비티가 올라와서 지금게 focus잃었을 때. 일부분이 보일때 호출된다. 
+* onStop(): 다른엑티비티가 100프로 가릴때 호출. 홈키 누르는경우. 이상태에서 다시 Activity불러질 경우 onRestart() 호출된다.
+* onDestroy(): 액티비티가 완전히 스택에서 없어질 때 호출. 
+
+
+
+#### OOP
+
+- - 객체들이 서로 유기적으로 동작하는 프로그래밍 이론
+  - 코드의 재사용성과 중복제거가 가장 큰 목적
+
+- **추상화**
+
+- - 목적과 관련이 없는 부분을 제외해서 필요한 부분을 포착하는 기법
+  - 객체의 공통된 속성들 중 필요한 부분을 포착해서 클래스로 정의하는 설계 기법
+
+- **캡슐화**
+
+- - 외부에 노출할 필요가 없는 정보들은 은닉 (정보은닉)
+
+- **상속**
+
+- - 상속 관계에 있는 두 클래스에 대해, 부모 클래스가 자손 클래스에게 속성을 물려주는 것
+  - 코드의 재사용이 목적
+
+- **다형성**
+
+- - 같은 형태이지만 다른 기능을 하는 것
+  - 오버라이딩은 이와 관련된 기능임
+
+
+
 # OS
 
 #### big-endian vs little-endian
@@ -343,7 +399,7 @@ signal(S)
 
 
 
-#### PCB(Process Control Block)
+#### PCB
 프로세스에 대한 중요한 정보 저장하고있다. context switch에 이용. 
 +왜 스레드의 context siwtch는 프로세스것보다 빠를까? 쓰레드의 cs는 캐시 메모리를 비울 필요가 없기 때문. 
 
@@ -508,15 +564,15 @@ Note right of Server : 8: end session
 
 full-duplex(저송, 수신 동시에 가능), point to point (정확히 2개의 종단점)
 
-* **Flow Control**
+* Flow Control 
 
   송신측의 속도가 수신측보다 빠를경우 생기는 문제 방지하기 위해 생김. 수식측의 저장용량 한계 있기 때문. 송신측의 전송량을 수신측에 맞게 조절해야한다
 
-  * Stop and Wait
+  * **Stop and Wait**
 
     패킷 전송할때마다 ACK 받은거 확인해야 다음 패킷 전송 
 
-  * Sliding Window 
+  * **Sliding Window **
 
     window : 전송, 수신 스테이션에 만들어진 버퍼의 크기 
 
@@ -526,7 +582,7 @@ full-duplex(저송, 수신 동시에 가능), point to point (정확히 2개의 
 
     
 
-* **Congestion Control**
+* Congestion Control
 
   한 라우터에 데이터 몰릴 수 있다. 이경우 전송속도 강제로 줄임. 
 
@@ -538,17 +594,17 @@ full-duplex(저송, 수신 동시에 가능), point to point (정확히 2개의 
 
 * 오류 제어(error detection & retransmission)
 
-  * Stop and Wait
+  * Stop and Wait**
 
     패킷 전송할때마다 ACK 받은거 확인해야 다음 패킷 전송 
 
-  * GBN(go back and)
+  * **GBN(go back and)**
 
     슬라딩 윈도우 프로토콜. 맨앞데이터ACK 받으면 슬라이드 옮긴다.
     하지만 중간 데이터 로스나면 슬라이드 처음부터 다시 전송 
     -->분실 이후 프레임 모두재전송. 구현단순 
 
-  * SR(selective repeate)
+  * **SR(selective repeate)**
 
     받는쪽에도 저장공간이 있다. 받는쪽에서 못받은것만 다시 보내라고한다. 
     하지만 문제있다. 재전송시 재전송된 데이터인지, 새로운 데이터인지모름. 
@@ -587,17 +643,6 @@ note over server: close()
 
 
 ```
-
-
-
-#### DHCP
-
-* 클라이언트에서 ip 할당받는 프로토콜. 
-
-1. 접속하는 클라이언트가 broadcast로 DHCP유뮤 확인
-2. DHCP도 broadcast에세 클라이언트에게 ip 전달
-3. 클라이언트가 ip사용한다고 DHCP에게 broadcast
-4. DHCP ACK
 
 
 
@@ -703,25 +748,3 @@ MODEL *updates* VIEW
 VIEW *sees* USER 
 
 USER *uses* CONTROLLER
-
-#### OOP 개발 5대원리
-
-* **SRP**(single responsibility princile) : 단인책임의 원칙
-
-  클래스는 하나의 기능만 가지며 모든 서비스는 그 하나의 책임을 수행하는데 집중해야함.
-
-* **OCP**(open close principle) : 개방폐쇠의 원칙
-
-  확장에는 열려있고 변경에는 닫혀있어야한다. 추가요구시 기존 코드 바꾸지말고 기존코드 재사용해서 확장 가능해야 할 것. key) 추상화, 다형성 
-
-* **LSP**(liskov substitude princile) : 리스코브 치환의 원칙
-
-  서브타임은 언제나 기반타입으로 교체할 수 있어야한다. (기반타입 약속한 규약 지켜라)
-
-* **ISP**(interface segregation principle) : 인터페이스 분리의 원칙
-
-  클래스는 자신이 사용하지 않는 인터페이스는 구현하지 않아야 한다. (인터페이스 단일 책임)
-
-* **DIP**(dependency inversion principle) : 하위레벨이 상위레벨의 변경을 요구하는 관계 없게 
-
-  컴포넌트간의 커뮤니케이션 관계 단순화.
