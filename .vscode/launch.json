@@ -5,6 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "CodeLens (Launch) - moveArea",
+            "request": "launch",
+            "mainClass": "moveArea"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - findprime",
+            "request": "launch",
+            "mainClass": "findprime"
+        },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
